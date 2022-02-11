@@ -1,0 +1,46 @@
+*pair-ls.txt*
+*pair* *pair-ls* *pair-ls.nvim*
+===============================================================================
+CONTENTS                                                     *pair-ls-contents*
+
+    1. Commands........................................|pair-ls-commands|
+    2. Options.........................................|pair-ls-options|
+
+===============================================================================
+COMMANDS                                                      *pair-ls-commands*
+
+                                                                         *:Pair*
+:Pair
+        Start the pair-ls server
+
+                                                                     *:PairStop*
+:PairStop
+        Stop the pair-ls server
+
+===============================================================================
+OPTIONS                                                        *pair-ls-options*
+
+Configure pair-ls by calling the setup() function.
+>
+    require("pair-ls").setup({
+      -- The pair-ls command to run
+      cmd = { "pair-ls", "lsp", "-port", "8080" },
+    
+      -- The function configures the root directory for the server
+      root_dir = function(fname)
+        return vim.loop.cwd()
+      end,
+    
+      -- Pass a function here to run custom logic on attach
+      on_attach = function(client, bufnr) end,
+    
+      -- See :help vim.lsp.start_client
+      flags = {
+        allow_incremental_sync = true,
+        debounce_text_changes = nil,
+      },
+    })
+<
+
+===============================================================================
+vim:ft=help:et:ts=2:sw=2:sts=2:norl

@@ -1,0 +1,9 @@
+:Pair	pair-ls.txt	/*:Pair*
+:PairStop	pair-ls.txt	/*:PairStop*
+pair	pair-ls.txt	/*pair*
+pair-ls	pair-ls.txt	/*pair-ls*
+pair-ls-commands	pair-ls.txt	/*pair-ls-commands*
+pair-ls-contents	pair-ls.txt	/*pair-ls-contents*
+pair-ls-options	pair-ls.txt	/*pair-ls-options*
+pair-ls.nvim	pair-ls.txt	/*pair-ls.nvim*
+pair-ls.txt	pair-ls.txt	/*pair-ls.txt*
