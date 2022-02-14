@@ -66,6 +66,9 @@ M.start_client = function(fname)
     end,
     cmd = config.cmd,
     flags = config.flags,
+    -- Add this after Neovim client supports multiple servers with different
+    -- offset encodings: https://github.com/neovim/neovim/blob/master/runtime/lua/vim/lsp/util.lua#L1812
+    -- offset_encoding = "utf-8",
     on_attach = vim.schedule_wrap(function(_, bufnr)
       if bufnr == vim.api.nvim_get_current_buf() then
         M.setup_buffer(bufnr)
@@ -115,16 +118,15 @@ M.send_cursor_pos = function()
     return
   end
   local mode = vim.api.nvim_get_mode().mode
-  local params = vim.lsp.util.make_position_params()
+  local params = vim.lsp.util.make_position_params(0, client.offset_encoding)
   if string.match(mode, "^[vV]") then
-    local offset_encoding = vim.lsp.util._get_offset_encoding(0)
     -- This is the best way to get the visual selection at the moment
     -- https://github.com/neovim/neovim/pull/13896
     local _, start_lnum, start_col, _ = unpack(vim.fn.getpos("v"))
     local _, end_lnum, end_col, _, _ = unpack(vim.fn.getcurpos())
     params.range = {
-      start = util.make_position_param(0, start_lnum, start_col, offset_encoding),
-      ["end"] = util.make_position_param(0, end_lnum, end_col, offset_encoding),
+      start = util.make_position_param(0, start_lnum, start_col, client.offset_encoding),
+      ["end"] = util.make_position_param(0, end_lnum, end_col, client.offset_encoding),
     }
   end
   client.notify("experimental/cursor", params)
