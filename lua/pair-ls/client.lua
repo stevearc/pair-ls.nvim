@@ -2,7 +2,7 @@ local config = require("pair-ls.config")
 local util = require("pair-ls.util")
 local M = {}
 
-local client, id
+local client, id, share_url
 
 local should_attach = function(bufnr)
   if
@@ -45,6 +45,39 @@ M.get_client = function()
   return client
 end
 
+local message_type_map = {
+  Error = vim.log.levels.ERROR,
+  Warning = vim.log.levels.WARN,
+  Info = vim.log.levels.INFO,
+  Log = vim.log.levels.DEBUG,
+}
+local handlers = {
+  ["window/showMessage"] = function(_err, result, context, _config)
+    local client_id = context.client_id
+    if client_id ~= id then
+      return
+    end
+    local message_type = result.type
+    local message = result.message
+    if not client then
+      vim.notify("PairLS client has shut down after receiving the message", vim.log.levels.ERROR)
+    end
+    if message_type == vim.lsp.protocol.MessageType.Error then
+      vim.notify("PairLS: " .. message, vim.log.levels.ERROR)
+    else
+      local message_type_name = vim.lsp.protocol.MessageType[message_type]
+      -- Special case if we're receiving the share url
+      if string.gmatch(message, "^Sharing: ") then
+        share_url = string.sub(message, 9)
+        M.show_share_url()
+      else
+        vim.notify(string.format("PairLS: %s", message), message_type_map[message_type_name])
+      end
+    end
+    return result
+  end,
+}
+
 M.start_client = function(fname)
   local capabilities = vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), {
     experimental = {
@@ -57,12 +90,14 @@ M.start_client = function(fname)
     name = "pair-ls",
     root_dir = config.root_dir(fname),
     capabilities = capabilities,
+    handlers = handlers,
     on_init = function(new_client, _initialize_result)
       client = new_client
     end,
     on_exit = function()
       id = nil
       client = nil
+      share_url = nil
     end,
     cmd = config.cmd,
     flags = config.flags,
@@ -130,6 +165,16 @@ M.send_cursor_pos = function()
     }
   end
   client.notify("experimental/cursor", params)
+end
+
+M.show_share_url = function()
+  if share_url == nil then
+    vim.notify("PairLS has no sharing URL", vim.log.levels.ERROR)
+  else
+    vim.fn.setreg("", share_url)
+    vim.fn.setreg("+", share_url)
+    vim.notify(string.format("PairLS: %s", share_url), vim.log.levels.INFO)
+  end
 end
 
 M.stop = function()

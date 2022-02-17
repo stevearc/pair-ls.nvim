@@ -79,6 +79,10 @@ git clone --depth=1 https://github.com/stevearc/pair-ls.nvim.git \
 
 ## Setup
 
+Note that you will _probably_ need to change the default `cmd`, unless you're
+sharing to someone that can reach `localhost:8080`. See the
+[pair-ls](https://github.com/stevearc/pair-ls) repo for details.
+
 ```lua
 -- Call the setup function
 require("pair-ls").setup({
@@ -106,4 +110,5 @@ require("pair-ls").setup({
 | Command    | description              |
 | ---------- | ------------------------ |
 | `Pair`     | Start the pair-ls server |
+| `PairUrl`  | Show the sharing URL     |
 | `PairStop` | Stop the pair-ls server  |

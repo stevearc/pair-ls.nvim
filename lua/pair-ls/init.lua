@@ -10,6 +10,8 @@ M.start = function()
   client.try_add()
 end
 
+M.show_url = client.show_share_url
+
 M.stop = function()
   vim.cmd([[aug PairLS
       au!
@@ -21,6 +23,7 @@ M.setup = function(conf)
   config.update(conf)
   vim.cmd([[
     command! Pair lua require('pair-ls').start()
+    command! PairUrl lua require('pair-ls').show_url()
     command! PairStop lua require('pair-ls').stop()
     ]])
 end

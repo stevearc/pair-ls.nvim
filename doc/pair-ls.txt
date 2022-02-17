@@ -13,6 +13,9 @@ COMMANDS                                                      *pair-ls-commands*
 :Pair
         Start the pair-ls server
 
+                                                                      *:PairUrl*
+:PairUrl
+        Show the sharing URL
                                                                      *:PairStop*
 :PairStop
         Stop the pair-ls server

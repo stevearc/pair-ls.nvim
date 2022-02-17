@@ -1,5 +1,6 @@
 :Pair	pair-ls.txt	/*:Pair*
 :PairStop	pair-ls.txt	/*:PairStop*
+:PairUrl	pair-ls.txt	/*:PairUrl*
 pair	pair-ls.txt	/*pair*
 pair-ls	pair-ls.txt	/*pair-ls*
 pair-ls-commands	pair-ls.txt	/*pair-ls-commands*
