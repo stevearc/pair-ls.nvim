@@ -19,12 +19,18 @@ M.stop = function()
   client.stop()
 end
 
+M.connect = function(token)
+  token = string.gsub(token, "^%s*(.-)%s*$", "%1")
+  client.connect_to_peer(token)
+end
+
 M.setup = function(conf)
   config.update(conf)
   vim.cmd([[
-    command! Pair lua require('pair-ls').start()
-    command! PairUrl lua require('pair-ls').show_url()
-    command! PairStop lua require('pair-ls').stop()
+    command! -bar Pair lua require('pair-ls').start()
+    command! -bar PairUrl lua require('pair-ls').show_url()
+    command! -bar PairStop lua require('pair-ls').stop()
+    command! -bar -nargs=? PairConnect call luaeval("require('pair-ls').connect(_A)", <q-args>)
     ]])
 end
 

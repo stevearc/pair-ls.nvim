@@ -79,15 +79,15 @@ git clone --depth=1 https://github.com/stevearc/pair-ls.nvim.git \
 
 ## Setup
 
-Note that you will _probably_ need to change the default `cmd`, unless you're
-sharing to someone that can reach `localhost:8080`. See the
-[pair-ls](https://github.com/stevearc/pair-ls) repo for details.
+Note that the default `cmd` will only work with static site WebRTC connections.
+See the [pair-ls](https://github.com/stevearc/pair-ls) repo for for more ways to
+share.
 
 ```lua
 -- Call the setup function
 require("pair-ls").setup({
   -- The pair-ls command to run
-  cmd = { "pair-ls", "lsp", "-port", "8080" },
+  cmd = { "pair-ls", "lsp" },
 
   -- The function configures the root directory for the server
   root_dir = function(fname)
@@ -107,8 +107,9 @@ require("pair-ls").setup({
 
 ## Commands
 
-| Command    | description              |
-| ---------- | ------------------------ |
-| `Pair`     | Start the pair-ls server |
-| `PairUrl`  | Show the sharing URL     |
-| `PairStop` | Stop the pair-ls server  |
+| Command       | description                                |
+| ------------- | ------------------------------------------ |
+| `Pair`        | Start the pair-ls server                   |
+| `PairUrl`     | Show the sharing URL                       |
+| `PairConnect` | Initiate or respond to a WebRTC connection |
+| `PairStop`    | Stop the pair-ls server                    |

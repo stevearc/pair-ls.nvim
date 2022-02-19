@@ -16,6 +16,13 @@ COMMANDS                                                      *pair-ls-commands*
                                                                       *:PairUrl*
 :PairUrl
         Show the sharing URL
+
+                                                                  *:PairConnect*
+:PairConnect [token]
+        Used with no arguments, it initiates a WebRTC call and generates a
+        url to share. When the viewer responds (or if they initiate the call),
+        use :PairConnect again and paste in the token as the argument.
+
                                                                      *:PairStop*
 :PairStop
         Stop the pair-ls server
@@ -27,7 +34,7 @@ Configure pair-ls by calling the setup() function.
 >
     require("pair-ls").setup({
       -- The pair-ls command to run
-      cmd = { "pair-ls", "lsp", "-port", "8080" },
+      cmd = { "pair-ls", "lsp" },
     
       -- The function configures the root directory for the server
       root_dir = function(fname)

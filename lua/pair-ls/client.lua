@@ -167,6 +167,29 @@ M.send_cursor_pos = function()
   client.notify("experimental/cursor", params)
 end
 
+M.connect_to_peer = function(token)
+  if not client then
+    vim.notify("PairLS not running", vim.log.levels.ERROR)
+    return
+  end
+  local params = {
+    token = token,
+  }
+  client.request("experimental/connectToPeer", params, function(err, result, context, _config)
+    if err then
+      vim.notify(tostring(err), vim.log.levels.ERROR)
+      return
+    end
+    if result then
+      local value = result.url or result.token
+      vim.fn.setreg("", value)
+      vim.fn.setreg("+", value)
+      print(value)
+      vim.notify("PairLS: token copied", vim.log.levels.INFO)
+    end
+  end)
+end
+
 M.show_share_url = function()
   if share_url == nil then
     vim.notify("PairLS has no sharing URL", vim.log.levels.ERROR)

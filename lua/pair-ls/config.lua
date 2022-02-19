@@ -1,6 +1,6 @@
 local default_config = {
   -- The pair-ls command to run
-  cmd = { "pair-ls", "lsp", "-port", "8080" },
+  cmd = { "pair-ls", "lsp" },
 
   -- The function configures the root directory for the server
   root_dir = function(fname)
