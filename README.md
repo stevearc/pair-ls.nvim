@@ -90,8 +90,8 @@ require("pair-ls").setup({
   cmd = { "pair-ls", "lsp" },
 
   -- The function configures the root directory for the server
-  root_dir = function(fname)
-    return vim.loop.cwd()
+  root_dir = function(fname, util)
+    return util.root_pattern(".git", ".hg")(fname) or vim.loop.cwd()
   end,
 
   -- Pass a function here to run custom logic on attach
