@@ -21,7 +21,14 @@ end
 
 M.connect = function(token)
   token = string.gsub(token, "^%s*(.-)%s*$", "%1")
-  client.connect_to_peer(token)
+  if client.get_id() == nil then
+    M.start()
+    vim.defer_fn(function()
+      client.connect_to_peer(token)
+    end, 400)
+  else
+    client.connect_to_peer(token)
+  end
 end
 
 M.setup = function(conf)
