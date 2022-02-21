@@ -1,5 +1,6 @@
 local config = require("pair-ls.config")
 local util = require("pair-ls.util")
+local lsp_util = require("pair-ls.lsp_util")
 local M = {}
 
 local client, id, share_url
@@ -88,7 +89,7 @@ M.start_client = function(fname)
   })
   local lsp_conf = {
     name = "pair-ls",
-    root_dir = config.root_dir(fname),
+    root_dir = config.root_dir(fname, lsp_util),
     capabilities = capabilities,
     handlers = handlers,
     on_init = function(new_client, _initialize_result)
