@@ -154,17 +154,24 @@ M.send_cursor_pos = function()
     return
   end
   local mode = vim.api.nvim_get_mode().mode
-  local params = vim.lsp.util.make_position_params(0, client.offset_encoding)
+  local params = {
+    textDocument = vim.lsp.util.make_text_document_params(0),
+  }
+  local cur = vim.api.nvim_win_get_cursor(0)
+  local cursor = {
+    position = util.make_position_param(0, cur[1], cur[2], client.offset_encoding),
+  }
   if string.match(mode, "^[vV]") then
     -- This is the best way to get the visual selection at the moment
     -- https://github.com/neovim/neovim/pull/13896
     local _, start_lnum, start_col, _ = unpack(vim.fn.getpos("v"))
     local _, end_lnum, end_col, _, _ = unpack(vim.fn.getcurpos())
-    params.range = {
+    cursor.range = {
       start = util.make_position_param(0, start_lnum, start_col, client.offset_encoding),
       ["end"] = util.make_position_param(0, end_lnum, end_col, client.offset_encoding),
     }
   end
+  params.cursors = { cursor }
   client.notify("experimental/cursor", params)
 end
 
