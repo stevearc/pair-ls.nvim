@@ -7,7 +7,7 @@ local client, id, share_url
 
 local should_attach = function(bufnr)
   if
-    vim.api.nvim_buf_get_option(bufnr, "buftype") ~= "" or vim.api.nvim_buf_get_name(bufnr) == ""
+    vim.bo[bufnr].buftype ~= "" or vim.api.nvim_buf_get_name(bufnr) == ""
   then
     return false
   end
